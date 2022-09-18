@@ -1,6 +1,5 @@
 Sales Management Made Easy
 --------------------------
-
 From quotes to invoices, in just a few clicks with the Odoo <a href="https://www.odoo.com/app/crm">Sales Management</a>.
 
 Drive your sales operations from quotes to invoices with all the information
@@ -98,3 +97,11 @@ Use pricelists to record special conditions for a specific customer or to
 define prices for a segment of customers. Define promotions and have them
 applied automatically for all your Sales Teams.
 
+----------
+# Changelog
+
+## Created a new **`sale.order.archive`** model in module
+- created tree, form, search view for model only visible to users with Sales Manager permissions.
+
+- Added cron which will create a new one record in `sale.order.archive` for each order (`sale.order`) with the statuses "*sale*" or "*cancel*" with a modification date older than 30 days. All orders for which a record was created in `sale.order.archive` - cron will delete from the `sale.order` model.
+![sd](readme-images/cron.png)

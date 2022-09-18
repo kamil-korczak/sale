@@ -1384,4 +1384,79 @@
             <field name="context">{'search_default_month':1, 'search_default_team_id': [active_id]}</field>
             <field name="help">From this report, you can have an overview of the amount invoiced to your customer. The search tool can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
         </record>
+
+        <record id="view_order_archive_form" model="ir.ui.view">
+            <field name="name">sale.order.archive.form</field>
+            <field name="model">sale.order.archive</field>
+            <field name="arch" type="xml">
+                <form string="Sales Archived Orders" create="0" edit="0">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="order_details">
+                        <field name="order_create_date" string="Order Date" widget="date" optional="show"/>
+                        <field name="customer_id" readonly="1"/>
+                        <field name="salesperson_id" optional="show" widget="many2one_avatar_user" readonly="1" />
+                        <field name="currency_id" readonly="1"/>
+                        <field name="amount_total" widget="monetary" />
+                        <field name="order_line" readonly="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_order_archive_tree" model="ir.ui.view">
+            <field name="name">sale.order.archive.tree</field>
+            <field name="model">sale.order.archive</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Archived Orders" create="false">
+                    <field name="name" string="Order name/symbol" />
+                    <field name="order_create_date" string="Order Date" widget="date" optional="show"/>
+                    <field name="customer_id" readonly="1"/>
+                    <field name="salesperson_id" optional="show" widget="many2one_avatar_user"/>
+                    <field name="amount_total" widget="monetary" />
+                    <field name="currency_id" invisible="1"/>
+                    <field name="order_line" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_order_archive_search" model="ir.ui.view">
+            <field name="name">sale.order.archive.search</field>
+            <field name="model">sale.order.archive</field>
+            <field name="arch" type="xml">
+                <search string="Search Sales Archived Orders">
+                    <field name="name" string="Order name/symbol" />
+                    <field name="order_create_date" string="Order Date" widget="date" optional="show"/>
+                    <field name="customer_id" readonly="1"/>
+                    <field name="salesperson_id" optional="show" widget="many2one_avatar_user"/>
+                    <field name="amount_total" widget="monetary" />
+                    <field name="currency_id" invisible="1"/>
+                    <field name="order_line" invisible="1"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_orders_archived" model="ir.actions.act_window">
+            <field name="name">Sales Archived Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.archive</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="search_view_id" ref="sale.view_order_archive_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    There is no archived orders yet.
+                </p> 
+            </field>
+        </record>
+
+        <menuitem id="menu_sale_order_archived"
+            name="Archived Orders"
+            action="action_orders_archived"
+            parent="sale_order_menu"
+            sequence="2" groups="sales_team.group_sale_manager"/>
+
 </odoo>
